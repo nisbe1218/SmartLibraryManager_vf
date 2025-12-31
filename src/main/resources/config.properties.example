@@ -1,0 +1,7 @@
+## Exemple de configuration des clés API
+# Copiez ce fichier en `src/main/resources/config.properties` (ne pas committer vos vraies clés)
+
+# Clé pour Google Books (optionnel)
+google.books.api.key=VOTRE_CLE_GOOGLE_BOOKS
+
+# (ISBNdb / Open Library ont été retirés du code; si vous avez besoin d'autres fournisseurs, ajoutez-les manuellement)
