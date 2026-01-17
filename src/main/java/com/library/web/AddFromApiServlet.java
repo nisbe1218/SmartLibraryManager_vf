@@ -9,7 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-// Servlet pour ajouter un livre depuis l'API Google Books dans la bibliothèque
 @WebServlet("/addFromApi")
 public class AddFromApiServlet extends HttpServlet {
     private final LivreDao livreDao = new LivreDao(); // DAO pour sauvegarder les livres

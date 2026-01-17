@@ -8,7 +8,6 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-// Servlet pour gérer les lecteurs : afficher, ajouter, supprimer
 @WebServlet("/lecteurs")
 public class LecteurServlet extends HttpServlet {
 

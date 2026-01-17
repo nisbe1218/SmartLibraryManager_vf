@@ -12,6 +12,9 @@ public class Lecteur {
 
     private String nom;
     private String email;
+    
+    @OneToOne(mappedBy = "lecteur")
+    private Utilisateur utilisateur; // Lien vers le compte utilisateur
 
     @OneToMany(mappedBy = "lecteur", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Emprunt> emprunts;
@@ -31,9 +34,8 @@ public class Lecteur {
     public void setEmail(String email) { this.email = email; }
     public List<Emprunt> getEmprunts() { return emprunts; }
     public void setEmprunts(List<Emprunt> emprunts) { this.emprunts = emprunts; }
+    public Utilisateur getUtilisateur() { return utilisateur; }
+    public void setUtilisateur(Utilisateur utilisateur) { this.utilisateur = utilisateur; }
 
-    // --- ✅ Ajout essentiel ---
-    public int getNombreEmprunts() {
-        return (emprunts != null) ? emprunts.size() : 0;
-    }
+
 }

@@ -23,6 +23,21 @@ public class LecteurDao {
         }
     }
 
+    public Lecteur create(Lecteur lecteur) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(lecteur);
+            em.getTransaction().commit();
+            return lecteur;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Erreur lors de la création du lecteur", e);
+        } finally {
+            em.close();
+        }
+    }
+
     public List<Lecteur> findAll() {
         EntityManager em = JpaUtil.getEntityManager();
         List<Lecteur> list;

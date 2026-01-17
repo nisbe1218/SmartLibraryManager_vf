@@ -8,7 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-
+//Gérer les livres de la bibliothèque (CRUD)
 
 @WebServlet("/livres")
 public class LivreServlet extends HttpServlet {
@@ -16,7 +16,7 @@ public class LivreServlet extends HttpServlet {
 
     private final LivreDao livreDao = new LivreDao();    // Pour gérer les livres
     private final AuteurDao auteurDao = new AuteurDao();
-
+//Afficher la liste de tous les livres avec leurs auteurs
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("livres", livreDao.findAll());
@@ -27,7 +27,7 @@ public class LivreServlet extends HttpServlet {
         req.getRequestDispatcher("/pages/livres.jsp").forward(req, resp);
     }
 
-
+//Ajouter, modifier ou supprimer un livre
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");

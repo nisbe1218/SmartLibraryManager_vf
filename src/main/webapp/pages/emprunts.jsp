@@ -13,7 +13,7 @@
 <header>
   <div class="header-content">
     <a href="${pageContext.request.contextPath}/" class="logo">
-      <div class="logo-icon">📚</div>
+      <img src="${pageContext.request.contextPath}/images/logo.png" alt="SmartLibrary Logo" class="logo-icon">
       <h1>SmartLibrary</h1>
     </a>
     <nav>

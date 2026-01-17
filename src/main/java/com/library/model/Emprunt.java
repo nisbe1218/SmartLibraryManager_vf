@@ -18,15 +18,17 @@ public class Emprunt {
     private StatutEmprunt statut;
 
     @ManyToOne
-    @JoinColumn(name = "livre_id")
+    @JoinColumn(name = "livre_id")//définit la colonne en base pour la clé étrangère
     private Livre livre;
 
     @ManyToOne
     @JoinColumn(name = "lecteur_id")
     private Lecteur lecteur;
+    
+    private LocalDate dateReservation; // Date de réservation si RESERVE
 
     // Constante pour la durée d'emprunt
-    private static final int DUREE_EMPRUNT_JOURS = 14;
+    private static final int DUREE_EMPRUNT_JOURS = 15;
 
     public Emprunt() {}
 
@@ -44,15 +46,51 @@ public class Emprunt {
         this.dateRetourEffective = LocalDate.now(); // Enregistrer la date de retour
         this.statut = StatutEmprunt.RETOURNE; // Changer le statut à RETOURNE
     }
+    
+    // Créer une réservation
+    public static Emprunt creerReservation(Livre livre, Lecteur lecteur) {
+        Emprunt reservation = new Emprunt(); //STATUT
+        reservation.setLivre(livre);
+        reservation.setLecteur(lecteur);
+        reservation.setDateReservation(LocalDate.now());
+        reservation.setStatut(StatutEmprunt.RESERVE);
+        return reservation;
+    }
+    
+    // Convertir une réservation en emprunt
+    public void activerReservation() {
+        if (this.statut == StatutEmprunt.RESERVE) {
+            this.dateEmprunt = LocalDate.now();
+            this.dateRetourPrevue = LocalDate.now().plusDays(DUREE_EMPRUNT_JOURS);
+            this.statut = StatutEmprunt.EN_COURS;
+        }
+    }
+    
+    // Vérifier si l'emprunt est en retard
+    public boolean isEnRetard() {
+        if (statut == StatutEmprunt.EN_COURS && dateRetourPrevue != null) {
+            return LocalDate.now().isAfter(dateRetourPrevue);
+        }
+        return false;
+    }
+    
+    // Calculer le nombre de jours restants
+    public long getJoursRestants() {
+        if (statut == StatutEmprunt.EN_COURS && dateRetourPrevue != null) {
+            return ChronoUnit.DAYS.between(LocalDate.now(), dateRetourPrevue);
+        }
+        return 0;
+    }
 
     // Enum pour les différents statuts d'un emprunt
     public enum StatutEmprunt {
-        EN_COURS,   // Le livre est toujours emprunté
-        RETOURNE,   // Le livre a été rendu
-        EN_RETARD   // L'emprunt est en retard
+        EN_COURS,
+        RETOURNE,
+        EN_RETARD,
+        RESERVE
     }
 
-    // ============ GETTERS ET SETTERS ============
+
 
     public Long getId() {
         return id;
@@ -104,6 +142,14 @@ public class Emprunt {
 
     public void setLecteur(Lecteur lecteur) {
         this.lecteur = lecteur;
+    }
+    
+    public LocalDate getDateReservation() {
+        return dateReservation;
+    }
+
+    public void setDateReservation(LocalDate dateReservation) {
+        this.dateReservation = dateReservation;
     }
 
     // Compatibilité avec l'ancien code

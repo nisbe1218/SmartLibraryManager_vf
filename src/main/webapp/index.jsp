@@ -289,13 +289,20 @@
 <body>
     <!-- Navigation -->
     <nav class="top-nav">
-        <div style="font-size: 1.5rem; font-weight: 600; color: #2d5a5a;">📚 SmartLibrary</div>
-        <ul class="nav-links">
-            <li><a href="${pageContext.request.contextPath}/auteurs">AUTEURS</a></li>
-            <li><a href="${pageContext.request.contextPath}/livres">LIVRES</a></li>
-            <li><a href="${pageContext.request.contextPath}/lecteurs">LECTEURS</a></li>
-            <li><a href="${pageContext.request.contextPath}/emprunts">EMPRUNTS</a></li>
-        </ul>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="40" y="80" width="20" height="60" fill="#2d5a5a"/>
+                <rect x="45" y="130" width="10" height="3" fill="#8b6f47"/>
+                <rect x="70" y="60" width="20" height="80" fill="#2d5a5a"/>
+                <rect x="75" y="130" width="10" height="3" fill="#8b6f47"/>
+                <rect x="100" y="70" width="20" height="70" fill="#2d5a5a"/>
+                <rect x="105" y="130" width="10" height="3" fill="#8b6f47"/>
+                <rect x="130" y="50" width="20" height="90" fill="#2d5a5a"/>
+                <rect x="135" y="130" width="10" height="3" fill="#8b6f47"/>
+                <rect x="30" y="140" width="140" height="4" fill="#654321"/>
+            </svg>
+            <span style="font-size: 1.5rem; font-weight: 600; color: #2d5a5a;">SmartLibrary</span>
+        </div>
     </nav>
 
     <!-- Alert Messages -->
@@ -320,8 +327,8 @@
             <p class="hero-description">
                 Gérez votre bibliothèque de manière simple et efficace. Suivez vos auteurs, livres, lecteurs et emprunts en un seul endroit moderne et intuitif.
             </p>
-            <a href="${pageContext.request.contextPath}/pages/bibliotheque.jsp" class="learn-more-btn">
-                Découvrir
+            <a href="${pageContext.request.contextPath}/pages/login.jsp" class="learn-more-btn">
+                Se connecter
                 <span class="arrow-icon">→</span>
             </a>
         </div>

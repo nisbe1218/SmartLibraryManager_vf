@@ -12,7 +12,6 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
 
-// Servlet pour gérer les emprunts : créer, rendre, supprimer
 @WebServlet("/emprunts")
 public class EmpruntServlet extends HttpServlet {
 
@@ -40,7 +39,7 @@ public class EmpruntServlet extends HttpServlet {
 
         String action = req.getParameter("action"); // Récupérer l'action
         
-        // ACTION 1 : Supprimer un emprunt
+        // 1
         if ("delete".equals(action)) {
             String idStr = req.getParameter("id");
             try {
@@ -53,7 +52,7 @@ public class EmpruntServlet extends HttpServlet {
             return;
         }
 
-        // ACTION 2 : Marquer comme rendu
+        // 2
         String renduIdStr = req.getParameter("renduId");
 
         if (renduIdStr != null && !renduIdStr.isEmpty()) {
@@ -72,7 +71,7 @@ public class EmpruntServlet extends HttpServlet {
             return;
         }
 
-        // ACTION 3 : Créer un nouvel emprunt
+        // 3 : Créer un nouvel emprunt
         String livreIdStr = req.getParameter("livreId"); // Récupérer les IDs
         String lecteurIdStr = req.getParameter("lecteurId");
 

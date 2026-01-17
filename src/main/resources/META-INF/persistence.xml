@@ -6,6 +6,8 @@
         <class>com.library.model.Livre</class>
         <class>com.library.model.Lecteur</class>
         <class>com.library.model.Emprunt</class>
+        <class>com.library.model.Utilisateur</class>
+        <class>com.library.model.Reservation</class>
 
         <!-- Exclure les classes non mappées pour éviter les avertissements -->
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

@@ -5,9 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-/**
- * DAO pour gérer les emprunts de livres
- */
+
 public class EmpruntDao {
 
     // Sauvegarder un nouvel emprunt dans la base
@@ -23,6 +21,22 @@ public class EmpruntDao {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             ex.printStackTrace();
             throw new RuntimeException("Erreur lors de la sauvegarde de l'emprunt", ex);
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Créer un nouvel emprunt
+    public Emprunt create(Emprunt emprunt) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(emprunt);
+            em.getTransaction().commit();
+            return emprunt;
+        } catch (Exception ex) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Erreur lors de la création de l'emprunt", ex);
         } finally {
             em.close();
         }
@@ -53,7 +67,7 @@ public class EmpruntDao {
         em.getTransaction().begin();
         Emprunt e = em.find(Emprunt.class, empruntId);
         // Vérifier que l'emprunt existe et n'est pas déjà rendu
-        if (e != null && e.getDateRetour() == null) {
+        if (e != null && e.getDateRetourEffective() == null) {
             e.marquerCommeRendu(); // Met la date de retour à aujourd'hui
             em.merge(e); // Sauvegarde les modifications
         }
@@ -88,6 +102,92 @@ public class EmpruntDao {
         } catch (Exception ex) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             throw new RuntimeException("Erreur lors de la suppression de l'emprunt", ex);
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Récupérer les emprunts d'un lecteur spécifique
+    public List<Emprunt> findByLecteur(Long lecteurId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            TypedQuery<Emprunt> query = em.createQuery(
+                "SELECT e FROM Emprunt e WHERE e.lecteur.id = :lecteurId ORDER BY e.dateEmprunt DESC",
+                Emprunt.class
+            );
+            query.setParameter("lecteurId", lecteurId);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Récupérer les N derniers emprunts
+    public List<Emprunt> findLastNEmprunts(int n) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            TypedQuery<Emprunt> query = em.createQuery(
+                "SELECT e FROM Emprunt e ORDER BY e.dateEmprunt DESC",
+                Emprunt.class
+            );
+            query.setMaxResults(n);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Récupérer les emprunts par statut
+    public List<Emprunt> findByStatut(Emprunt.StatutEmprunt statut) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            TypedQuery<Emprunt> query = em.createQuery(
+                "SELECT e FROM Emprunt e WHERE e.statut = :statut",
+                Emprunt.class
+            );
+            query.setParameter("statut", statut);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Récupérer un emprunt par ID
+    public Emprunt findById(Long id) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return em.find(Emprunt.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Mettre à jour un emprunt
+    public Emprunt update(Emprunt emprunt) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Emprunt updated = em.merge(emprunt);
+            em.getTransaction().commit();
+            return updated;
+        } catch (Exception ex) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Erreur lors de la mise à jour de l'emprunt", ex);
+        } finally {
+            em.close();
+        }
+    }
+    
+    // Récupérer tous les emprunts d'un livre spécifique
+    public List<Emprunt> findByLivre(Long livreId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            TypedQuery<Emprunt> query = em.createQuery(
+                "SELECT e FROM Emprunt e WHERE e.livre.id = :livreId", 
+                Emprunt.class
+            );
+            query.setParameter("livreId", livreId);
+            return query.getResultList();
         } finally {
             em.close();
         }

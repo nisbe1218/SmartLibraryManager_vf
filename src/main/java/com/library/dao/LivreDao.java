@@ -5,32 +5,28 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 /**
- * DAO pour gérer les opérations CRUD sur les livres
+
  * CRUD = Create (créer), Read (lire), Update (modifier), Delete (supprimer)
  */
 public class LivreDao {
     
-    /**
-     * Sauvegarder un nouveau livre dans la base de données
-     * @param l Le livre à ajouter
-     */
+
     public void save(Livre l) {
         EntityManager em = null; // Le gestionnaire de base de données
         try {
-            // 1. Ouvrir une connexion à la base de données H2
+
             em = JpaUtil.getEntityManager();
             
-            // 2. Commencer une transaction (un ensemble d'opérations qui vont ensemble)
+
             em.getTransaction().begin();
             
-            // 3. Persister le livre (l'ajouter dans la base)
-            // JPA va automatiquement faire : INSERT INTO Livre VALUES (...)
+
             em.persist(l);
             
-            // 4. Forcer l'écriture immédiate dans la base
+
             em.flush();
             
-            // 5. Valider la transaction (sauvegarder définitivement)
+
             em.getTransaction().commit();
             
             System.out.println("✅ Livre sauvegardé : " + l.getTitre() + " (ID: " + l.getId() + ")");
@@ -50,10 +46,7 @@ public class LivreDao {
         }
     }
 
-    /**
-     * Récupérer tous les livres stockés dans la base de données
-     * @return Une liste contenant tous les livres
-     */
+
     public List<Livre> findAll() {
         EntityManager em = null;
         try {
